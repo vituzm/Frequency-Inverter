@@ -1,0 +1,2540 @@
+[
+    {
+        "id": "7827c33b916c51ec",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3dd41df6acdb3bb3",
+        "type": "acquisition in",
+        "z": "7827c33b916c51ec",
+        "name": "STLINK_OUT",
+        "probeconfig": "3ee60e47c3ab3a76",
+        "x": 170,
+        "y": 220,
+        "wires": [
+            [
+                "3aca6055621ea771"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "7e6d54a6b7b9314d",
+        "type": "variables",
+        "z": "7827c33b916c51ec",
+        "groupname": "Vars",
+        "accesspoint": 0,
+        "execonfig": "b1b9e634f25d6fc6",
+        "variablelist": [],
+        "triggerstartmode": "manual",
+        "triggername": "frequenciaMotor",
+        "triggerthreshold": "30000",
+        "frequency": "",
+        "frequencyType": "0",
+        "snapshotheader": "",
+        "mode": "direct",
+        "lastImportedTime": 1733771050034,
+        "openStatus": false,
+        "x": 870,
+        "y": 440,
+        "wires": [
+            [
+                "6e44316d114d7e16"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "6e44316d114d7e16",
+        "type": "acquisition out",
+        "z": "7827c33b916c51ec",
+        "name": "STLINK_IN",
+        "probeconfig": "3ee60e47c3ab3a76",
+        "x": 990,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "0c652016865abaa2",
+        "type": "serial out",
+        "z": "7827c33b916c51ec",
+        "name": "STLINK_COM_3_115KBPS",
+        "serial": "4ec9172452289ce5",
+        "x": 960,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "98a699f8997f6925",
+        "type": "ui_slider",
+        "z": "7827c33b916c51ec",
+        "name": "",
+        "label": "FREQUENCIA MOTOR - HZ",
+        "tooltip": "",
+        "group": "f9c34dde.1e2f4",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "50",
+        "max": "70",
+        "step": 1,
+        "className": "",
+        "x": 160,
+        "y": 500,
+        "wires": [
+            [
+                "ea73a1bc41089667"
+            ]
+        ]
+    },
+    {
+        "id": "fe274817cfd265e8",
+        "type": "change",
+        "z": "7827c33b916c51ec",
+        "name": "Change tipo de msg",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "write",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 500,
+        "wires": [
+            [
+                "6e44316d114d7e16"
+            ]
+        ]
+    },
+    {
+        "id": "ea73a1bc41089667",
+        "type": "template",
+        "z": "7827c33b916c51ec",
+        "name": "Modelo do valor ",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n    \"variablelist\": [\n    {\n        \"address\": \"0x20000002\",\n        \"type\": 1,\n        \"value\": \"{{payload}}\"\n    }\n    ],\n    \"accesspoint\": 0\n}\n ",
+        "output": "json",
+        "x": 440,
+        "y": 500,
+        "wires": [
+            [
+                "fe274817cfd265e8"
+            ]
+        ]
+    },
+    {
+        "id": "e8b031b576ccd512",
+        "type": "ui_switch",
+        "z": "7827c33b916c51ec",
+        "name": "",
+        "label": "LIGAR / DESLIGAR ",
+        "tooltip": "",
+        "group": "f9c34dde.1e2f4",
+        "order": 1,
+        "width": 10,
+        "height": 1,
+        "passthru": false,
+        "decouple": "false",
+        "topic": "START",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "START",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "STOP",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 220,
+        "y": 440,
+        "wires": [
+            [
+                "c738e02549fc3f60",
+                "9438ba5a3eb05441"
+            ]
+        ]
+    },
+    {
+        "id": "c738e02549fc3f60",
+        "type": "switch",
+        "z": "7827c33b916c51ec",
+        "name": "Comparador de str",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "START",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "STOP",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 450,
+        "y": 440,
+        "wires": [
+            [
+                "bc7960c0cd051072"
+            ],
+            [
+                "e2cb6833ce5ec56f"
+            ]
+        ]
+    },
+    {
+        "id": "bc7960c0cd051072",
+        "type": "change",
+        "z": "7827c33b916c51ec",
+        "name": "Change tipo de msg",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "topic",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 420,
+        "wires": [
+            [
+                "7e6d54a6b7b9314d"
+            ]
+        ]
+    },
+    {
+        "id": "e2cb6833ce5ec56f",
+        "type": "change",
+        "z": "7827c33b916c51ec",
+        "name": "Change tipo de msg",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 460,
+        "wires": [
+            [
+                "7e6d54a6b7b9314d"
+            ]
+        ]
+    },
+    {
+        "id": "9438ba5a3eb05441",
+        "type": "switch",
+        "z": "7827c33b916c51ec",
+        "name": "Comparador de str",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "START",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "STOP",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 430,
+        "y": 360,
+        "wires": [
+            [
+                "88165c47916b87c7"
+            ],
+            [
+                "e5791789646a95e0"
+            ]
+        ]
+    },
+    {
+        "id": "88165c47916b87c7",
+        "type": "change",
+        "z": "7827c33b916c51ec",
+        "name": "Change para a letra S",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "S",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 300,
+        "wires": [
+            [
+                "0c652016865abaa2",
+                "b6be9cdac307331b"
+            ]
+        ]
+    },
+    {
+        "id": "e5791789646a95e0",
+        "type": "change",
+        "z": "7827c33b916c51ec",
+        "name": "Change para a letra P",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "P",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 360,
+        "wires": [
+            [
+                "0c652016865abaa2",
+                "b6be9cdac307331b"
+            ]
+        ]
+    },
+    {
+        "id": "c8b91abbbb9c2098",
+        "type": "ui_slider",
+        "z": "7827c33b916c51ec",
+        "d": true,
+        "name": "",
+        "label": "Tempo de descida(s)",
+        "tooltip": "",
+        "group": "f9c34dde.1e2f4",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": "5",
+        "max": "180",
+        "step": 1,
+        "className": "",
+        "x": 220,
+        "y": 540,
+        "wires": [
+            [
+                "c5a58fd6a87686f1"
+            ]
+        ]
+    },
+    {
+        "id": "c5a58fd6a87686f1",
+        "type": "template",
+        "z": "7827c33b916c51ec",
+        "name": "Modelo do valor ",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n    \"variablelist\": [\n    {\n        \"address\": \"0x20000002\",\n        \"type\": 2,\n        \"value\": \"{{payload}}\"\n    }\n    ],\n    \"accesspoint\": 0\n}\n ",
+        "output": "json",
+        "x": 440,
+        "y": 540,
+        "wires": [
+            [
+                "5759736b65df64e8"
+            ]
+        ]
+    },
+    {
+        "id": "5759736b65df64e8",
+        "type": "change",
+        "z": "7827c33b916c51ec",
+        "name": "Change tipo de msg",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "write",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3aca6055621ea771",
+        "type": "processing",
+        "z": "7827c33b916c51ec",
+        "groupname": "Vars",
+        "groupid": "7e6d54a6b7b9314d",
+        "expressions": [],
+        "statistics": [],
+        "logmode": "no",
+        "logformat": "stcm",
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "1733f9112387635f"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "b6be9cdac307331b",
+        "type": "debug",
+        "z": "7827c33b916c51ec",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5771298bff78871c",
+        "type": "ui_button",
+        "z": "7827c33b916c51ec",
+        "d": true,
+        "name": "",
+        "group": "f9c34dde.1e2f4",
+        "order": 6,
+        "width": 15,
+        "height": 1,
+        "passthru": false,
+        "label": "Clear Gráfico",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "clear",
+        "topicType": "str",
+        "x": 450,
+        "y": 220,
+        "wires": [
+            [
+                "1733f9112387635f"
+            ]
+        ]
+    },
+    {
+        "id": "1733f9112387635f",
+        "type": "ui_chartst",
+        "z": "7827c33b916c51ec",
+        "d": true,
+        "group": "f9c34dde.1e2f4",
+        "name": "GRÁFICO",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "chartType": "line",
+        "curveType": "linear",
+        "duration": "0.16",
+        "ymin": "",
+        "ymax": "",
+        "x": 670,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "3ee60e47c3ab3a76",
+        "type": "probe",
+        "probeid": "066CFF565653756687233053",
+        "probename": "ST-Link v2-1B 066CFF565653756687233053",
+        "protocol": "SWD",
+        "frequency": "1.8 MHz - Default",
+        "probeproperty": "{\"SWD\":[\"4.6 MHz\",\"1.8 MHz - Default\",\"950 kHz\",\"400 kHz\",\"150 kHz\"],\"JTAG\":[\"18 MHz\",\"9 MHz\",\"4.5 MHz\",\"2.25 MHz\",\"1.12 MHz - Default\",\"560 kHz\",\"280 kHz\",\"140 kHz\"]}",
+        "probeversion": "ST Link firmware version V2.J45",
+        "connectionType": "p2p",
+        "nickname": "st"
+    },
+    {
+        "id": "b1b9e634f25d6fc6",
+        "type": "exe-config",
+        "name": "minhas_variavies inversor",
+        "exefile": "C:\\Users\\Usuario\\Desktop\\Inversor\\Debug\\Inversor.elf",
+        "exefolder": "C:\\Users\\Usuario\\Desktop\\Inversor\\Debug",
+        "exevariablelist": [
+            {
+                "address": "0x08007578",
+                "name": "AHBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x08007582",
+                "name": "AHBPrescTable[10]",
+                "type": 1
+            },
+            {
+                "address": "0x08007583",
+                "name": "AHBPrescTable[11]",
+                "type": 1
+            },
+            {
+                "address": "0x08007584",
+                "name": "AHBPrescTable[12]",
+                "type": 1
+            },
+            {
+                "address": "0x08007585",
+                "name": "AHBPrescTable[13]",
+                "type": 1
+            },
+            {
+                "address": "0x08007586",
+                "name": "AHBPrescTable[14]",
+                "type": 1
+            },
+            {
+                "address": "0x08007587",
+                "name": "AHBPrescTable[15]",
+                "type": 1
+            },
+            {
+                "address": "0x08007579",
+                "name": "AHBPrescTable[1]",
+                "type": 1
+            },
+            {
+                "address": "0x0800757a",
+                "name": "AHBPrescTable[2]",
+                "type": 1
+            },
+            {
+                "address": "0x0800757b",
+                "name": "AHBPrescTable[3]",
+                "type": 1
+            },
+            {
+                "address": "0x0800757c",
+                "name": "AHBPrescTable[4]",
+                "type": 1
+            },
+            {
+                "address": "0x0800757d",
+                "name": "AHBPrescTable[5]",
+                "type": 1
+            },
+            {
+                "address": "0x0800757e",
+                "name": "AHBPrescTable[6]",
+                "type": 1
+            },
+            {
+                "address": "0x0800757f",
+                "name": "AHBPrescTable[7]",
+                "type": 1
+            },
+            {
+                "address": "0x08007580",
+                "name": "AHBPrescTable[8]",
+                "type": 1
+            },
+            {
+                "address": "0x08007581",
+                "name": "AHBPrescTable[9]",
+                "type": 1
+            },
+            {
+                "address": "0x08007588",
+                "name": "APBPrescTable[0]",
+                "type": 1
+            },
+            {
+                "address": "0x08007589",
+                "name": "APBPrescTable[1]",
+                "type": 1
+            },
+            {
+                "address": "0x0800758a",
+                "name": "APBPrescTable[2]",
+                "type": 1
+            },
+            {
+                "address": "0x0800758b",
+                "name": "APBPrescTable[3]",
+                "type": 1
+            },
+            {
+                "address": "0x0800758c",
+                "name": "APBPrescTable[4]",
+                "type": 1
+            },
+            {
+                "address": "0x0800758d",
+                "name": "APBPrescTable[5]",
+                "type": 1
+            },
+            {
+                "address": "0x0800758e",
+                "name": "APBPrescTable[6]",
+                "type": 1
+            },
+            {
+                "address": "0x0800758f",
+                "name": "APBPrescTable[7]",
+                "type": 1
+            },
+            {
+                "address": "0x20000002",
+                "name": "frequenciaMotor",
+                "type": 3,
+                "checked": true
+            },
+            {
+                "address": "0x20000108",
+                "name": "hadc1.DMA_Handle",
+                "type": 5
+            },
+            {
+                "address": "0x20000114",
+                "name": "hadc1.ErrorCode",
+                "type": 5
+            },
+            {
+                "address": "0x200000d4",
+                "name": "hadc1.Init.ClockPrescaler",
+                "type": 5
+            },
+            {
+                "address": "0x200000e8",
+                "name": "hadc1.Init.ContinuousConvMode",
+                "type": 2
+            },
+            {
+                "address": "0x200000dc",
+                "name": "hadc1.Init.DataAlign",
+                "type": 5
+            },
+            {
+                "address": "0x200000f0",
+                "name": "hadc1.Init.DiscontinuousConvMode",
+                "type": 2
+            },
+            {
+                "address": "0x20000100",
+                "name": "hadc1.Init.DMAContinuousRequests",
+                "type": 2
+            },
+            {
+                "address": "0x200000e4",
+                "name": "hadc1.Init.EOCSelection",
+                "type": 5
+            },
+            {
+                "address": "0x200000f8",
+                "name": "hadc1.Init.ExternalTrigConv",
+                "type": 5
+            },
+            {
+                "address": "0x200000fc",
+                "name": "hadc1.Init.ExternalTrigConvEdge",
+                "type": 5
+            },
+            {
+                "address": "0x200000ec",
+                "name": "hadc1.Init.NbrOfConversion",
+                "type": 5
+            },
+            {
+                "address": "0x200000f4",
+                "name": "hadc1.Init.NbrOfDiscConversion",
+                "type": 5
+            },
+            {
+                "address": "0x200000d8",
+                "name": "hadc1.Init.Resolution",
+                "type": 5
+            },
+            {
+                "address": "0x200000e0",
+                "name": "hadc1.Init.ScanConvMode",
+                "type": 5
+            },
+            {
+                "address": "0x200000d0",
+                "name": "hadc1.Instance",
+                "type": 5
+            },
+            {
+                "address": "0x2000010c",
+                "name": "hadc1.Lock",
+                "type": 2
+            },
+            {
+                "address": "0x20000104",
+                "name": "hadc1.NbrOfCurrentConversionRank",
+                "type": 5
+            },
+            {
+                "address": "0x20000110",
+                "name": "hadc1.State",
+                "type": 5
+            },
+            {
+                "address": "0x2000016c",
+                "name": "hdma_adc1.ErrorCode",
+                "type": 5
+            },
+            {
+                "address": "0x2000011c",
+                "name": "hdma_adc1.Init.Channel",
+                "type": 5
+            },
+            {
+                "address": "0x20000120",
+                "name": "hdma_adc1.Init.Direction",
+                "type": 5
+            },
+            {
+                "address": "0x2000013c",
+                "name": "hdma_adc1.Init.FIFOMode",
+                "type": 5
+            },
+            {
+                "address": "0x20000140",
+                "name": "hdma_adc1.Init.FIFOThreshold",
+                "type": 5
+            },
+            {
+                "address": "0x20000144",
+                "name": "hdma_adc1.Init.MemBurst",
+                "type": 5
+            },
+            {
+                "address": "0x20000130",
+                "name": "hdma_adc1.Init.MemDataAlignment",
+                "type": 5
+            },
+            {
+                "address": "0x20000128",
+                "name": "hdma_adc1.Init.MemInc",
+                "type": 5
+            },
+            {
+                "address": "0x20000134",
+                "name": "hdma_adc1.Init.Mode",
+                "type": 5
+            },
+            {
+                "address": "0x20000148",
+                "name": "hdma_adc1.Init.PeriphBurst",
+                "type": 5
+            },
+            {
+                "address": "0x2000012c",
+                "name": "hdma_adc1.Init.PeriphDataAlignment",
+                "type": 5
+            },
+            {
+                "address": "0x20000124",
+                "name": "hdma_adc1.Init.PeriphInc",
+                "type": 5
+            },
+            {
+                "address": "0x20000138",
+                "name": "hdma_adc1.Init.Priority",
+                "type": 5
+            },
+            {
+                "address": "0x20000118",
+                "name": "hdma_adc1.Instance",
+                "type": 5
+            },
+            {
+                "address": "0x2000014c",
+                "name": "hdma_adc1.Lock",
+                "type": 2
+            },
+            {
+                "address": "0x20000150",
+                "name": "hdma_adc1.Parent",
+                "type": 5
+            },
+            {
+                "address": "0x2000014d",
+                "name": "hdma_adc1.State",
+                "type": 2
+            },
+            {
+                "address": "0x20000170",
+                "name": "hdma_adc1.StreamBaseAddress",
+                "type": 5
+            },
+            {
+                "address": "0x20000174",
+                "name": "hdma_adc1.StreamIndex",
+                "type": 5
+            },
+            {
+                "address": "0x20000168",
+                "name": "hdma_adc1.XferAbortCallback",
+                "type": 5
+            },
+            {
+                "address": "0x20000154",
+                "name": "hdma_adc1.XferCpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x20000164",
+                "name": "hdma_adc1.XferErrorCallback",
+                "type": 5
+            },
+            {
+                "address": "0x20000158",
+                "name": "hdma_adc1.XferHalfCpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x2000015c",
+                "name": "hdma_adc1.XferM1CpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x20000160",
+                "name": "hdma_adc1.XferM1HalfCpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x2000025c",
+                "name": "hdma_tim2_ch1.ErrorCode",
+                "type": 5
+            },
+            {
+                "address": "0x2000020c",
+                "name": "hdma_tim2_ch1.Init.Channel",
+                "type": 5
+            },
+            {
+                "address": "0x20000210",
+                "name": "hdma_tim2_ch1.Init.Direction",
+                "type": 5
+            },
+            {
+                "address": "0x2000022c",
+                "name": "hdma_tim2_ch1.Init.FIFOMode",
+                "type": 5
+            },
+            {
+                "address": "0x20000230",
+                "name": "hdma_tim2_ch1.Init.FIFOThreshold",
+                "type": 5
+            },
+            {
+                "address": "0x20000234",
+                "name": "hdma_tim2_ch1.Init.MemBurst",
+                "type": 5
+            },
+            {
+                "address": "0x20000220",
+                "name": "hdma_tim2_ch1.Init.MemDataAlignment",
+                "type": 5
+            },
+            {
+                "address": "0x20000218",
+                "name": "hdma_tim2_ch1.Init.MemInc",
+                "type": 5
+            },
+            {
+                "address": "0x20000224",
+                "name": "hdma_tim2_ch1.Init.Mode",
+                "type": 5
+            },
+            {
+                "address": "0x20000238",
+                "name": "hdma_tim2_ch1.Init.PeriphBurst",
+                "type": 5
+            },
+            {
+                "address": "0x2000021c",
+                "name": "hdma_tim2_ch1.Init.PeriphDataAlignment",
+                "type": 5
+            },
+            {
+                "address": "0x20000214",
+                "name": "hdma_tim2_ch1.Init.PeriphInc",
+                "type": 5
+            },
+            {
+                "address": "0x20000228",
+                "name": "hdma_tim2_ch1.Init.Priority",
+                "type": 5
+            },
+            {
+                "address": "0x20000208",
+                "name": "hdma_tim2_ch1.Instance",
+                "type": 5
+            },
+            {
+                "address": "0x2000023c",
+                "name": "hdma_tim2_ch1.Lock",
+                "type": 2
+            },
+            {
+                "address": "0x20000240",
+                "name": "hdma_tim2_ch1.Parent",
+                "type": 5
+            },
+            {
+                "address": "0x2000023d",
+                "name": "hdma_tim2_ch1.State",
+                "type": 2
+            },
+            {
+                "address": "0x20000260",
+                "name": "hdma_tim2_ch1.StreamBaseAddress",
+                "type": 5
+            },
+            {
+                "address": "0x20000264",
+                "name": "hdma_tim2_ch1.StreamIndex",
+                "type": 5
+            },
+            {
+                "address": "0x20000258",
+                "name": "hdma_tim2_ch1.XferAbortCallback",
+                "type": 5
+            },
+            {
+                "address": "0x20000244",
+                "name": "hdma_tim2_ch1.XferCpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x20000254",
+                "name": "hdma_tim2_ch1.XferErrorCallback",
+                "type": 5
+            },
+            {
+                "address": "0x20000248",
+                "name": "hdma_tim2_ch1.XferHalfCpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x2000024c",
+                "name": "hdma_tim2_ch1.XferM1CpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x20000250",
+                "name": "hdma_tim2_ch1.XferM1HalfCpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x200002bc",
+                "name": "hdma_tim2_ch2_ch4.ErrorCode",
+                "type": 5
+            },
+            {
+                "address": "0x2000026c",
+                "name": "hdma_tim2_ch2_ch4.Init.Channel",
+                "type": 5
+            },
+            {
+                "address": "0x20000270",
+                "name": "hdma_tim2_ch2_ch4.Init.Direction",
+                "type": 5
+            },
+            {
+                "address": "0x2000028c",
+                "name": "hdma_tim2_ch2_ch4.Init.FIFOMode",
+                "type": 5
+            },
+            {
+                "address": "0x20000290",
+                "name": "hdma_tim2_ch2_ch4.Init.FIFOThreshold",
+                "type": 5
+            },
+            {
+                "address": "0x20000294",
+                "name": "hdma_tim2_ch2_ch4.Init.MemBurst",
+                "type": 5
+            },
+            {
+                "address": "0x20000280",
+                "name": "hdma_tim2_ch2_ch4.Init.MemDataAlignment",
+                "type": 5
+            },
+            {
+                "address": "0x20000278",
+                "name": "hdma_tim2_ch2_ch4.Init.MemInc",
+                "type": 5
+            },
+            {
+                "address": "0x20000284",
+                "name": "hdma_tim2_ch2_ch4.Init.Mode",
+                "type": 5
+            },
+            {
+                "address": "0x20000298",
+                "name": "hdma_tim2_ch2_ch4.Init.PeriphBurst",
+                "type": 5
+            },
+            {
+                "address": "0x2000027c",
+                "name": "hdma_tim2_ch2_ch4.Init.PeriphDataAlignment",
+                "type": 5
+            },
+            {
+                "address": "0x20000274",
+                "name": "hdma_tim2_ch2_ch4.Init.PeriphInc",
+                "type": 5
+            },
+            {
+                "address": "0x20000288",
+                "name": "hdma_tim2_ch2_ch4.Init.Priority",
+                "type": 5
+            },
+            {
+                "address": "0x20000268",
+                "name": "hdma_tim2_ch2_ch4.Instance",
+                "type": 5
+            },
+            {
+                "address": "0x2000029c",
+                "name": "hdma_tim2_ch2_ch4.Lock",
+                "type": 2
+            },
+            {
+                "address": "0x200002a0",
+                "name": "hdma_tim2_ch2_ch4.Parent",
+                "type": 5
+            },
+            {
+                "address": "0x2000029d",
+                "name": "hdma_tim2_ch2_ch4.State",
+                "type": 2
+            },
+            {
+                "address": "0x200002c0",
+                "name": "hdma_tim2_ch2_ch4.StreamBaseAddress",
+                "type": 5
+            },
+            {
+                "address": "0x200002c4",
+                "name": "hdma_tim2_ch2_ch4.StreamIndex",
+                "type": 5
+            },
+            {
+                "address": "0x200002b8",
+                "name": "hdma_tim2_ch2_ch4.XferAbortCallback",
+                "type": 5
+            },
+            {
+                "address": "0x200002a4",
+                "name": "hdma_tim2_ch2_ch4.XferCpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x200002b4",
+                "name": "hdma_tim2_ch2_ch4.XferErrorCallback",
+                "type": 5
+            },
+            {
+                "address": "0x200002a8",
+                "name": "hdma_tim2_ch2_ch4.XferHalfCpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x200002ac",
+                "name": "hdma_tim2_ch2_ch4.XferM1CpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x200002b0",
+                "name": "hdma_tim2_ch2_ch4.XferM1HalfCpltCallback",
+                "type": 5
+            },
+            {
+                "address": "0x20000194",
+                "name": "htim2.Channel",
+                "type": 2
+            },
+            {
+                "address": "0x200001ba",
+                "name": "htim2.ChannelNState[0]",
+                "type": 2
+            },
+            {
+                "address": "0x200001bb",
+                "name": "htim2.ChannelNState[1]",
+                "type": 2
+            },
+            {
+                "address": "0x200001bc",
+                "name": "htim2.ChannelNState[2]",
+                "type": 2
+            },
+            {
+                "address": "0x200001bd",
+                "name": "htim2.ChannelNState[3]",
+                "type": 2
+            },
+            {
+                "address": "0x200001b6",
+                "name": "htim2.ChannelState[0]",
+                "type": 2
+            },
+            {
+                "address": "0x200001b7",
+                "name": "htim2.ChannelState[1]",
+                "type": 2
+            },
+            {
+                "address": "0x200001b8",
+                "name": "htim2.ChannelState[2]",
+                "type": 2
+            },
+            {
+                "address": "0x200001b9",
+                "name": "htim2.ChannelState[3]",
+                "type": 2
+            },
+            {
+                "address": "0x200001be",
+                "name": "htim2.DMABurstState",
+                "type": 2
+            },
+            {
+                "address": "0x20000198",
+                "name": "htim2.hdma[0]",
+                "type": 5
+            },
+            {
+                "address": "0x2000019c",
+                "name": "htim2.hdma[1]",
+                "type": 5
+            },
+            {
+                "address": "0x200001a0",
+                "name": "htim2.hdma[2]",
+                "type": 5
+            },
+            {
+                "address": "0x200001a4",
+                "name": "htim2.hdma[3]",
+                "type": 5
+            },
+            {
+                "address": "0x200001a8",
+                "name": "htim2.hdma[4]",
+                "type": 5
+            },
+            {
+                "address": "0x200001ac",
+                "name": "htim2.hdma[5]",
+                "type": 5
+            },
+            {
+                "address": "0x200001b0",
+                "name": "htim2.hdma[6]",
+                "type": 5
+            },
+            {
+                "address": "0x20000190",
+                "name": "htim2.Init.AutoReloadPreload",
+                "type": 5
+            },
+            {
+                "address": "0x20000188",
+                "name": "htim2.Init.ClockDivision",
+                "type": 5
+            },
+            {
+                "address": "0x20000180",
+                "name": "htim2.Init.CounterMode",
+                "type": 5
+            },
+            {
+                "address": "0x20000184",
+                "name": "htim2.Init.Period",
+                "type": 5
+            },
+            {
+                "address": "0x2000017c",
+                "name": "htim2.Init.Prescaler",
+                "type": 5
+            },
+            {
+                "address": "0x2000018c",
+                "name": "htim2.Init.RepetitionCounter",
+                "type": 5
+            },
+            {
+                "address": "0x20000178",
+                "name": "htim2.Instance",
+                "type": 5
+            },
+            {
+                "address": "0x200001b4",
+                "name": "htim2.Lock",
+                "type": 2
+            },
+            {
+                "address": "0x200001b5",
+                "name": "htim2.State",
+                "type": 2
+            },
+            {
+                "address": "0x200001dc",
+                "name": "htim3.Channel",
+                "type": 2
+            },
+            {
+                "address": "0x20000202",
+                "name": "htim3.ChannelNState[0]",
+                "type": 2
+            },
+            {
+                "address": "0x20000203",
+                "name": "htim3.ChannelNState[1]",
+                "type": 2
+            },
+            {
+                "address": "0x20000204",
+                "name": "htim3.ChannelNState[2]",
+                "type": 2
+            },
+            {
+                "address": "0x20000205",
+                "name": "htim3.ChannelNState[3]",
+                "type": 2
+            },
+            {
+                "address": "0x200001fe",
+                "name": "htim3.ChannelState[0]",
+                "type": 2
+            },
+            {
+                "address": "0x200001ff",
+                "name": "htim3.ChannelState[1]",
+                "type": 2
+            },
+            {
+                "address": "0x20000200",
+                "name": "htim3.ChannelState[2]",
+                "type": 2
+            },
+            {
+                "address": "0x20000201",
+                "name": "htim3.ChannelState[3]",
+                "type": 2
+            },
+            {
+                "address": "0x20000206",
+                "name": "htim3.DMABurstState",
+                "type": 2
+            },
+            {
+                "address": "0x200001e0",
+                "name": "htim3.hdma[0]",
+                "type": 5
+            },
+            {
+                "address": "0x200001e4",
+                "name": "htim3.hdma[1]",
+                "type": 5
+            },
+            {
+                "address": "0x200001e8",
+                "name": "htim3.hdma[2]",
+                "type": 5
+            },
+            {
+                "address": "0x200001ec",
+                "name": "htim3.hdma[3]",
+                "type": 5
+            },
+            {
+                "address": "0x200001f0",
+                "name": "htim3.hdma[4]",
+                "type": 5
+            },
+            {
+                "address": "0x200001f4",
+                "name": "htim3.hdma[5]",
+                "type": 5
+            },
+            {
+                "address": "0x200001f8",
+                "name": "htim3.hdma[6]",
+                "type": 5
+            },
+            {
+                "address": "0x200001d8",
+                "name": "htim3.Init.AutoReloadPreload",
+                "type": 5
+            },
+            {
+                "address": "0x200001d0",
+                "name": "htim3.Init.ClockDivision",
+                "type": 5
+            },
+            {
+                "address": "0x200001c8",
+                "name": "htim3.Init.CounterMode",
+                "type": 5
+            },
+            {
+                "address": "0x200001cc",
+                "name": "htim3.Init.Period",
+                "type": 5
+            },
+            {
+                "address": "0x200001c4",
+                "name": "htim3.Init.Prescaler",
+                "type": 5
+            },
+            {
+                "address": "0x200001d4",
+                "name": "htim3.Init.RepetitionCounter",
+                "type": 5
+            },
+            {
+                "address": "0x200001c0",
+                "name": "htim3.Instance",
+                "type": 5
+            },
+            {
+                "address": "0x200001fc",
+                "name": "htim3.Lock",
+                "type": 2
+            },
+            {
+                "address": "0x200001fd",
+                "name": "htim3.State",
+                "type": 2
+            },
+            {
+                "address": "0x2000030c",
+                "name": "huart2.ErrorCode",
+                "type": 5
+            },
+            {
+                "address": "0x20000309",
+                "name": "huart2.gState",
+                "type": 2
+            },
+            {
+                "address": "0x20000304",
+                "name": "huart2.hdmarx",
+                "type": 5
+            },
+            {
+                "address": "0x20000300",
+                "name": "huart2.hdmatx",
+                "type": 5
+            },
+            {
+                "address": "0x200002cc",
+                "name": "huart2.Init.BaudRate",
+                "type": 5
+            },
+            {
+                "address": "0x200002e0",
+                "name": "huart2.Init.HwFlowCtl",
+                "type": 5
+            },
+            {
+                "address": "0x200002dc",
+                "name": "huart2.Init.Mode",
+                "type": 5
+            },
+            {
+                "address": "0x200002e4",
+                "name": "huart2.Init.OverSampling",
+                "type": 5
+            },
+            {
+                "address": "0x200002d8",
+                "name": "huart2.Init.Parity",
+                "type": 5
+            },
+            {
+                "address": "0x200002d4",
+                "name": "huart2.Init.StopBits",
+                "type": 5
+            },
+            {
+                "address": "0x200002d0",
+                "name": "huart2.Init.WordLength",
+                "type": 5
+            },
+            {
+                "address": "0x200002c8",
+                "name": "huart2.Instance",
+                "type": 5
+            },
+            {
+                "address": "0x20000308",
+                "name": "huart2.Lock",
+                "type": 2
+            },
+            {
+                "address": "0x200002f0",
+                "name": "huart2.pRxBuffPtr",
+                "type": 5
+            },
+            {
+                "address": "0x200002e8",
+                "name": "huart2.pTxBuffPtr",
+                "type": 5
+            },
+            {
+                "address": "0x200002f8",
+                "name": "huart2.ReceptionType",
+                "type": 5
+            },
+            {
+                "address": "0x200002fc",
+                "name": "huart2.RxEventType",
+                "type": 5
+            },
+            {
+                "address": "0x2000030a",
+                "name": "huart2.RxState",
+                "type": 2
+            },
+            {
+                "address": "0x200002f6",
+                "name": "huart2.RxXferCount",
+                "type": 3
+            },
+            {
+                "address": "0x200002f4",
+                "name": "huart2.RxXferSize",
+                "type": 3
+            },
+            {
+                "address": "0x200002ee",
+                "name": "huart2.TxXferCount",
+                "type": 3
+            },
+            {
+                "address": "0x200002ec",
+                "name": "huart2.TxXferSize",
+                "type": 3
+            },
+            {
+                "address": "0x2000002c",
+                "name": "medidas[0]",
+                "type": 3
+            },
+            {
+                "address": "0x20000040",
+                "name": "medidas[10]",
+                "type": 3
+            },
+            {
+                "address": "0x20000042",
+                "name": "medidas[11]",
+                "type": 3
+            },
+            {
+                "address": "0x20000044",
+                "name": "medidas[12]",
+                "type": 3
+            },
+            {
+                "address": "0x20000046",
+                "name": "medidas[13]",
+                "type": 3
+            },
+            {
+                "address": "0x20000048",
+                "name": "medidas[14]",
+                "type": 3
+            },
+            {
+                "address": "0x2000004a",
+                "name": "medidas[15]",
+                "type": 3
+            },
+            {
+                "address": "0x2000004c",
+                "name": "medidas[16]",
+                "type": 3
+            },
+            {
+                "address": "0x2000004e",
+                "name": "medidas[17]",
+                "type": 3
+            },
+            {
+                "address": "0x20000050",
+                "name": "medidas[18]",
+                "type": 3
+            },
+            {
+                "address": "0x20000052",
+                "name": "medidas[19]",
+                "type": 3
+            },
+            {
+                "address": "0x2000002e",
+                "name": "medidas[1]",
+                "type": 3
+            },
+            {
+                "address": "0x20000054",
+                "name": "medidas[20]",
+                "type": 3
+            },
+            {
+                "address": "0x20000056",
+                "name": "medidas[21]",
+                "type": 3
+            },
+            {
+                "address": "0x20000058",
+                "name": "medidas[22]",
+                "type": 3
+            },
+            {
+                "address": "0x2000005a",
+                "name": "medidas[23]",
+                "type": 3
+            },
+            {
+                "address": "0x2000005c",
+                "name": "medidas[24]",
+                "type": 3
+            },
+            {
+                "address": "0x2000005e",
+                "name": "medidas[25]",
+                "type": 3
+            },
+            {
+                "address": "0x20000060",
+                "name": "medidas[26]",
+                "type": 3
+            },
+            {
+                "address": "0x20000062",
+                "name": "medidas[27]",
+                "type": 3
+            },
+            {
+                "address": "0x20000064",
+                "name": "medidas[28]",
+                "type": 3
+            },
+            {
+                "address": "0x20000066",
+                "name": "medidas[29]",
+                "type": 3
+            },
+            {
+                "address": "0x20000030",
+                "name": "medidas[2]",
+                "type": 3
+            },
+            {
+                "address": "0x20000068",
+                "name": "medidas[30]",
+                "type": 3
+            },
+            {
+                "address": "0x2000006a",
+                "name": "medidas[31]",
+                "type": 3
+            },
+            {
+                "address": "0x20000032",
+                "name": "medidas[3]",
+                "type": 3
+            },
+            {
+                "address": "0x20000034",
+                "name": "medidas[4]",
+                "type": 3
+            },
+            {
+                "address": "0x20000036",
+                "name": "medidas[5]",
+                "type": 3
+            },
+            {
+                "address": "0x20000038",
+                "name": "medidas[6]",
+                "type": 3
+            },
+            {
+                "address": "0x2000003a",
+                "name": "medidas[7]",
+                "type": 3
+            },
+            {
+                "address": "0x2000003c",
+                "name": "medidas[8]",
+                "type": 3
+            },
+            {
+                "address": "0x2000003e",
+                "name": "medidas[9]",
+                "type": 3
+            },
+            {
+                "address": "0x2000006c",
+                "name": "msg[0]",
+                "type": 1
+            },
+            {
+                "address": "0x20000076",
+                "name": "msg[10]",
+                "type": 1
+            },
+            {
+                "address": "0x20000077",
+                "name": "msg[11]",
+                "type": 1
+            },
+            {
+                "address": "0x20000078",
+                "name": "msg[12]",
+                "type": 1
+            },
+            {
+                "address": "0x20000079",
+                "name": "msg[13]",
+                "type": 1
+            },
+            {
+                "address": "0x2000007a",
+                "name": "msg[14]",
+                "type": 1
+            },
+            {
+                "address": "0x2000007b",
+                "name": "msg[15]",
+                "type": 1
+            },
+            {
+                "address": "0x2000007c",
+                "name": "msg[16]",
+                "type": 1
+            },
+            {
+                "address": "0x2000007d",
+                "name": "msg[17]",
+                "type": 1
+            },
+            {
+                "address": "0x2000007e",
+                "name": "msg[18]",
+                "type": 1
+            },
+            {
+                "address": "0x2000007f",
+                "name": "msg[19]",
+                "type": 1
+            },
+            {
+                "address": "0x2000006d",
+                "name": "msg[1]",
+                "type": 1
+            },
+            {
+                "address": "0x20000080",
+                "name": "msg[20]",
+                "type": 1
+            },
+            {
+                "address": "0x20000081",
+                "name": "msg[21]",
+                "type": 1
+            },
+            {
+                "address": "0x20000082",
+                "name": "msg[22]",
+                "type": 1
+            },
+            {
+                "address": "0x20000083",
+                "name": "msg[23]",
+                "type": 1
+            },
+            {
+                "address": "0x20000084",
+                "name": "msg[24]",
+                "type": 1
+            },
+            {
+                "address": "0x20000085",
+                "name": "msg[25]",
+                "type": 1
+            },
+            {
+                "address": "0x20000086",
+                "name": "msg[26]",
+                "type": 1
+            },
+            {
+                "address": "0x20000087",
+                "name": "msg[27]",
+                "type": 1
+            },
+            {
+                "address": "0x20000088",
+                "name": "msg[28]",
+                "type": 1
+            },
+            {
+                "address": "0x20000089",
+                "name": "msg[29]",
+                "type": 1
+            },
+            {
+                "address": "0x2000006e",
+                "name": "msg[2]",
+                "type": 1
+            },
+            {
+                "address": "0x2000008a",
+                "name": "msg[30]",
+                "type": 1
+            },
+            {
+                "address": "0x2000008b",
+                "name": "msg[31]",
+                "type": 1
+            },
+            {
+                "address": "0x2000008c",
+                "name": "msg[32]",
+                "type": 1
+            },
+            {
+                "address": "0x2000008d",
+                "name": "msg[33]",
+                "type": 1
+            },
+            {
+                "address": "0x2000008e",
+                "name": "msg[34]",
+                "type": 1
+            },
+            {
+                "address": "0x2000008f",
+                "name": "msg[35]",
+                "type": 1
+            },
+            {
+                "address": "0x20000090",
+                "name": "msg[36]",
+                "type": 1
+            },
+            {
+                "address": "0x20000091",
+                "name": "msg[37]",
+                "type": 1
+            },
+            {
+                "address": "0x20000092",
+                "name": "msg[38]",
+                "type": 1
+            },
+            {
+                "address": "0x20000093",
+                "name": "msg[39]",
+                "type": 1
+            },
+            {
+                "address": "0x2000006f",
+                "name": "msg[3]",
+                "type": 1
+            },
+            {
+                "address": "0x20000094",
+                "name": "msg[40]",
+                "type": 1
+            },
+            {
+                "address": "0x20000095",
+                "name": "msg[41]",
+                "type": 1
+            },
+            {
+                "address": "0x20000096",
+                "name": "msg[42]",
+                "type": 1
+            },
+            {
+                "address": "0x20000097",
+                "name": "msg[43]",
+                "type": 1
+            },
+            {
+                "address": "0x20000098",
+                "name": "msg[44]",
+                "type": 1
+            },
+            {
+                "address": "0x20000099",
+                "name": "msg[45]",
+                "type": 1
+            },
+            {
+                "address": "0x2000009a",
+                "name": "msg[46]",
+                "type": 1
+            },
+            {
+                "address": "0x2000009b",
+                "name": "msg[47]",
+                "type": 1
+            },
+            {
+                "address": "0x2000009c",
+                "name": "msg[48]",
+                "type": 1
+            },
+            {
+                "address": "0x2000009d",
+                "name": "msg[49]",
+                "type": 1
+            },
+            {
+                "address": "0x20000070",
+                "name": "msg[4]",
+                "type": 1
+            },
+            {
+                "address": "0x2000009e",
+                "name": "msg[50]",
+                "type": 1
+            },
+            {
+                "address": "0x2000009f",
+                "name": "msg[51]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a0",
+                "name": "msg[52]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a1",
+                "name": "msg[53]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a2",
+                "name": "msg[54]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a3",
+                "name": "msg[55]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a4",
+                "name": "msg[56]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a5",
+                "name": "msg[57]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a6",
+                "name": "msg[58]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a7",
+                "name": "msg[59]",
+                "type": 1
+            },
+            {
+                "address": "0x20000071",
+                "name": "msg[5]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a8",
+                "name": "msg[60]",
+                "type": 1
+            },
+            {
+                "address": "0x200000a9",
+                "name": "msg[61]",
+                "type": 1
+            },
+            {
+                "address": "0x200000aa",
+                "name": "msg[62]",
+                "type": 1
+            },
+            {
+                "address": "0x200000ab",
+                "name": "msg[63]",
+                "type": 1
+            },
+            {
+                "address": "0x200000ac",
+                "name": "msg[64]",
+                "type": 1
+            },
+            {
+                "address": "0x200000ad",
+                "name": "msg[65]",
+                "type": 1
+            },
+            {
+                "address": "0x200000ae",
+                "name": "msg[66]",
+                "type": 1
+            },
+            {
+                "address": "0x200000af",
+                "name": "msg[67]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b0",
+                "name": "msg[68]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b1",
+                "name": "msg[69]",
+                "type": 1
+            },
+            {
+                "address": "0x20000072",
+                "name": "msg[6]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b2",
+                "name": "msg[70]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b3",
+                "name": "msg[71]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b4",
+                "name": "msg[72]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b5",
+                "name": "msg[73]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b6",
+                "name": "msg[74]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b7",
+                "name": "msg[75]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b8",
+                "name": "msg[76]",
+                "type": 1
+            },
+            {
+                "address": "0x200000b9",
+                "name": "msg[77]",
+                "type": 1
+            },
+            {
+                "address": "0x200000ba",
+                "name": "msg[78]",
+                "type": 1
+            },
+            {
+                "address": "0x200000bb",
+                "name": "msg[79]",
+                "type": 1
+            },
+            {
+                "address": "0x20000073",
+                "name": "msg[7]",
+                "type": 1
+            },
+            {
+                "address": "0x200000bc",
+                "name": "msg[80]",
+                "type": 1
+            },
+            {
+                "address": "0x200000bd",
+                "name": "msg[81]",
+                "type": 1
+            },
+            {
+                "address": "0x200000be",
+                "name": "msg[82]",
+                "type": 1
+            },
+            {
+                "address": "0x200000bf",
+                "name": "msg[83]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c0",
+                "name": "msg[84]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c1",
+                "name": "msg[85]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c2",
+                "name": "msg[86]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c3",
+                "name": "msg[87]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c4",
+                "name": "msg[88]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c5",
+                "name": "msg[89]",
+                "type": 1
+            },
+            {
+                "address": "0x20000074",
+                "name": "msg[8]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c6",
+                "name": "msg[90]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c7",
+                "name": "msg[91]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c8",
+                "name": "msg[92]",
+                "type": 1
+            },
+            {
+                "address": "0x200000c9",
+                "name": "msg[93]",
+                "type": 1
+            },
+            {
+                "address": "0x200000ca",
+                "name": "msg[94]",
+                "type": 1
+            },
+            {
+                "address": "0x200000cb",
+                "name": "msg[95]",
+                "type": 1
+            },
+            {
+                "address": "0x200000cc",
+                "name": "msg[96]",
+                "type": 1
+            },
+            {
+                "address": "0x200000cd",
+                "name": "msg[97]",
+                "type": 1
+            },
+            {
+                "address": "0x200000ce",
+                "name": "msg[98]",
+                "type": 1
+            },
+            {
+                "address": "0x200000cf",
+                "name": "msg[99]",
+                "type": 1
+            },
+            {
+                "address": "0x20000075",
+                "name": "msg[9]",
+                "type": 1
+            },
+            {
+                "address": "0x20000390",
+                "name": "pwmN[0]",
+                "type": 5
+            },
+            {
+                "address": "0x200003b8",
+                "name": "pwmN[10]",
+                "type": 5
+            },
+            {
+                "address": "0x200003bc",
+                "name": "pwmN[11]",
+                "type": 5
+            },
+            {
+                "address": "0x200003c0",
+                "name": "pwmN[12]",
+                "type": 5
+            },
+            {
+                "address": "0x200003c4",
+                "name": "pwmN[13]",
+                "type": 5
+            },
+            {
+                "address": "0x200003c8",
+                "name": "pwmN[14]",
+                "type": 5
+            },
+            {
+                "address": "0x200003cc",
+                "name": "pwmN[15]",
+                "type": 5
+            },
+            {
+                "address": "0x200003d0",
+                "name": "pwmN[16]",
+                "type": 5
+            },
+            {
+                "address": "0x200003d4",
+                "name": "pwmN[17]",
+                "type": 5
+            },
+            {
+                "address": "0x200003d8",
+                "name": "pwmN[18]",
+                "type": 5
+            },
+            {
+                "address": "0x200003dc",
+                "name": "pwmN[19]",
+                "type": 5
+            },
+            {
+                "address": "0x20000394",
+                "name": "pwmN[1]",
+                "type": 5
+            },
+            {
+                "address": "0x200003e0",
+                "name": "pwmN[20]",
+                "type": 5
+            },
+            {
+                "address": "0x200003e4",
+                "name": "pwmN[21]",
+                "type": 5
+            },
+            {
+                "address": "0x200003e8",
+                "name": "pwmN[22]",
+                "type": 5
+            },
+            {
+                "address": "0x200003ec",
+                "name": "pwmN[23]",
+                "type": 5
+            },
+            {
+                "address": "0x200003f0",
+                "name": "pwmN[24]",
+                "type": 5
+            },
+            {
+                "address": "0x200003f4",
+                "name": "pwmN[25]",
+                "type": 5
+            },
+            {
+                "address": "0x200003f8",
+                "name": "pwmN[26]",
+                "type": 5
+            },
+            {
+                "address": "0x200003fc",
+                "name": "pwmN[27]",
+                "type": 5
+            },
+            {
+                "address": "0x20000400",
+                "name": "pwmN[28]",
+                "type": 5
+            },
+            {
+                "address": "0x20000404",
+                "name": "pwmN[29]",
+                "type": 5
+            },
+            {
+                "address": "0x20000398",
+                "name": "pwmN[2]",
+                "type": 5
+            },
+            {
+                "address": "0x20000408",
+                "name": "pwmN[30]",
+                "type": 5
+            },
+            {
+                "address": "0x2000040c",
+                "name": "pwmN[31]",
+                "type": 5
+            },
+            {
+                "address": "0x2000039c",
+                "name": "pwmN[3]",
+                "type": 5
+            },
+            {
+                "address": "0x200003a0",
+                "name": "pwmN[4]",
+                "type": 5
+            },
+            {
+                "address": "0x200003a4",
+                "name": "pwmN[5]",
+                "type": 5
+            },
+            {
+                "address": "0x200003a8",
+                "name": "pwmN[6]",
+                "type": 5
+            },
+            {
+                "address": "0x200003ac",
+                "name": "pwmN[7]",
+                "type": 5
+            },
+            {
+                "address": "0x200003b0",
+                "name": "pwmN[8]",
+                "type": 5
+            },
+            {
+                "address": "0x200003b4",
+                "name": "pwmN[9]",
+                "type": 5
+            },
+            {
+                "address": "0x20000310",
+                "name": "pwmP[0]",
+                "type": 5
+            },
+            {
+                "address": "0x20000338",
+                "name": "pwmP[10]",
+                "type": 5
+            },
+            {
+                "address": "0x2000033c",
+                "name": "pwmP[11]",
+                "type": 5
+            },
+            {
+                "address": "0x20000340",
+                "name": "pwmP[12]",
+                "type": 5
+            },
+            {
+                "address": "0x20000344",
+                "name": "pwmP[13]",
+                "type": 5
+            },
+            {
+                "address": "0x20000348",
+                "name": "pwmP[14]",
+                "type": 5
+            },
+            {
+                "address": "0x2000034c",
+                "name": "pwmP[15]",
+                "type": 5
+            },
+            {
+                "address": "0x20000350",
+                "name": "pwmP[16]",
+                "type": 5
+            },
+            {
+                "address": "0x20000354",
+                "name": "pwmP[17]",
+                "type": 5
+            },
+            {
+                "address": "0x20000358",
+                "name": "pwmP[18]",
+                "type": 5
+            },
+            {
+                "address": "0x2000035c",
+                "name": "pwmP[19]",
+                "type": 5
+            },
+            {
+                "address": "0x20000314",
+                "name": "pwmP[1]",
+                "type": 5
+            },
+            {
+                "address": "0x20000360",
+                "name": "pwmP[20]",
+                "type": 5
+            },
+            {
+                "address": "0x20000364",
+                "name": "pwmP[21]",
+                "type": 5
+            },
+            {
+                "address": "0x20000368",
+                "name": "pwmP[22]",
+                "type": 5
+            },
+            {
+                "address": "0x2000036c",
+                "name": "pwmP[23]",
+                "type": 5
+            },
+            {
+                "address": "0x20000370",
+                "name": "pwmP[24]",
+                "type": 5
+            },
+            {
+                "address": "0x20000374",
+                "name": "pwmP[25]",
+                "type": 5
+            },
+            {
+                "address": "0x20000378",
+                "name": "pwmP[26]",
+                "type": 5
+            },
+            {
+                "address": "0x2000037c",
+                "name": "pwmP[27]",
+                "type": 5
+            },
+            {
+                "address": "0x20000380",
+                "name": "pwmP[28]",
+                "type": 5
+            },
+            {
+                "address": "0x20000384",
+                "name": "pwmP[29]",
+                "type": 5
+            },
+            {
+                "address": "0x20000318",
+                "name": "pwmP[2]",
+                "type": 5
+            },
+            {
+                "address": "0x20000388",
+                "name": "pwmP[30]",
+                "type": 5
+            },
+            {
+                "address": "0x2000038c",
+                "name": "pwmP[31]",
+                "type": 5
+            },
+            {
+                "address": "0x2000031c",
+                "name": "pwmP[3]",
+                "type": 5
+            },
+            {
+                "address": "0x20000320",
+                "name": "pwmP[4]",
+                "type": 5
+            },
+            {
+                "address": "0x20000324",
+                "name": "pwmP[5]",
+                "type": 5
+            },
+            {
+                "address": "0x20000328",
+                "name": "pwmP[6]",
+                "type": 5
+            },
+            {
+                "address": "0x2000032c",
+                "name": "pwmP[7]",
+                "type": 5
+            },
+            {
+                "address": "0x20000330",
+                "name": "pwmP[8]",
+                "type": 5
+            },
+            {
+                "address": "0x20000334",
+                "name": "pwmP[9]",
+                "type": 5
+            },
+            {
+                "address": "0x20000004",
+                "name": "SystemCoreClock",
+                "type": 5
+            },
+            {
+                "address": "0x20000410",
+                "name": "uwTick",
+                "type": 5
+            },
+            {
+                "address": "0x2000000c",
+                "name": "uwTickFreq",
+                "type": 2
+            },
+            {
+                "address": "0x20000008",
+                "name": "uwTickPrio",
+                "type": 5
+            },
+            {
+                "address": "0x20000000",
+                "name": "ValSerial",
+                "type": 1,
+                "checked": true
+            }
+        ],
+        "expand": true,
+        "filename": "Inversor.elf",
+        "exeModifiedTime": 1733516810697,
+        "configLastUpdate": 1733766754051
+    },
+    {
+        "id": "4ec9172452289ce5",
+        "type": "serial-port",
+        "serialport": "COM3",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "f9c34dde.1e2f4",
+        "type": "ui_group",
+        "name": "COMANDOS",
+        "tab": "aa1bb13938b3ceca",
+        "order": 1,
+        "disp": true,
+        "width": "15",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "aa1bb13938b3ceca",
+        "type": "ui_tab",
+        "name": "INVERSOR ",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
